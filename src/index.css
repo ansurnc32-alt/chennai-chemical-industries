@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --navy-950: #050b16;
+    --navy-900: #0a1324;
+    --navy-850: #0f1c35;
+    --navy-800: #162646;
+    --teal-400: #2dd4bf;
+    --teal-500: #14b8a6;
+    --teal-600: #0d9488;
+    --teal-700: #0f766e;
+    --sage-500: #64748b;
+    --ivory-50: #fdfbf7;
+    --ivory-100: #f7f4ed;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #0f172a;
+    background-color: #f8fafc;
+  }
+
+  code, pre, .font-mono, .font-technical {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom scientific subtle animations */
+@keyframes molecularDrift {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes glowBorder {
+  0%, 100% {
+    border-color: rgba(20, 184, 166, 0.25);
+  }
+  50% {
+    border-color: rgba(45, 212, 191, 0.55);
+  }
+}
+
+.animate-molecular {
+  animation: molecularDrift 14s ease-in-out infinite;
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 4s ease-in-out infinite;
+}
+
+.animate-glow-border {
+  animation: glowBorder 5s ease-in-out infinite;
+}
+
+/* Subtle scientific grid & glass surface utilities */
+.scientific-grid-dark {
+  background-image: 
+    linear-gradient(to right, rgba(20, 184, 166, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 184, 166, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.scientific-grid-light {
+  background-image: 
+    linear-gradient(to right, rgba(15, 118, 110, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 118, 110, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a1324;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0d9488;
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

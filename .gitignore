@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Production builds
+build/
+dist/
+
+# Test coverage & logs
+coverage/
+*.log
+
+# Operating System & IDE artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment files and credentials
+.env*
+!.env.example
+
+# Customer enquiries, admin persistence, and backups (root data folder only)
+/data/
+/data/*.json
+!src/data/
+
+# Database dumps and archives
+*.dump
+*.sql
+*.bson
+*.bak
+dump/
+
+# Scratch & development test scripts (containing local test credentials)
+scratch/

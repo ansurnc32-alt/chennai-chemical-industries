@@ -1,0 +1,6 @@
+{
+  "name": "Chennai Chemical Industries",
+  "description": "B2B chemical and pharmaceutical-intermediate supplier based in Gajuwaka, Andhra Pradesh, India. Research reagents, pharmaceutical intermediates, and specialty chemicals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
