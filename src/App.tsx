@@ -13,7 +13,7 @@ import { AdminDashboard } from './components/admin/AdminDashboard';
 import { CHEMICAL_PRODUCTS } from './data/products';
 import { ChemicalProduct, ProductCategory, QuoteFormData } from './types';
 import { AdminUser, verifyAdminSession } from './lib/api';
-import { CheckCircle2, X, Loader2 } from 'lucide-react';
+import { CheckCircle2, X, Loader2, MapPin, Phone, Mail, Shield } from 'lucide-react';
 
 export default function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -226,6 +226,52 @@ export default function App() {
 
       {/* 10. Footer */}
       <Footer />
+
+      {/* 11. Bottom Contact Information Strip */}
+      <div className="bg-[#050b16] text-white text-[11px] border-t border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col md:flex-row items-center justify-between gap-2.5">
+          <div className="flex items-center gap-2 text-slate-300 font-mono">
+            <MapPin className="w-3 h-3 text-teal-400 shrink-0" />
+            <span>APIIC Industrial Park, Gajuwaka, Andhra Pradesh, India</span>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-mono text-white">
+            <a
+              href="tel:7619431029"
+              className="flex items-center gap-1.5 hover:text-teal-300 transition-colors"
+            >
+              <Phone className="w-3 h-3 text-teal-400 shrink-0" />
+              <span>7619431029</span>
+            </a>
+            <span className="text-slate-700 hidden sm:inline">|</span>
+            <a
+              href="mailto:chennaichemicalindustries@gmail.com"
+              className="flex items-center gap-1.5 hover:text-teal-300 transition-colors"
+              title="Primary Corporate Email"
+            >
+              <Mail className="w-3 h-3 text-teal-400 shrink-0" />
+              <span>chennaichemicalindustries@gmail.com</span>
+            </a>
+            <span className="text-slate-700 hidden lg:inline">|</span>
+            <a
+              href="mailto:sales@chennaichemicalindustries.com"
+              className="flex items-center gap-1.5 hover:text-teal-300 transition-colors"
+              title="Commercial Sales & RFQs"
+            >
+              <span className="text-slate-400 font-sans text-[10px] uppercase font-bold tracking-wider">Sales:</span>
+              <span>sales@chennaichemicalindustries.com</span>
+            </a>
+            <span className="text-slate-700 hidden sm:inline">|</span>
+            <a
+              href="#/admin"
+              className="flex items-center gap-1 text-slate-300 hover:text-teal-300 transition-colors font-medium font-sans"
+            >
+              <Shield className="w-3 h-3 text-teal-400 shrink-0" />
+              <span>Admin Portal</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

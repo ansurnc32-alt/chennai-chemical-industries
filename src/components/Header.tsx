@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, ArrowUpRight, Phone, Mail, MapPin, Shield, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowUpRight, MapPin, Shield } from 'lucide-react';
 
 interface HeaderProps {
   onRequestQuote: () => void;
@@ -19,52 +19,6 @@ export const Header: React.FC<HeaderProps> = ({ onRequestQuote, activeSection })
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs transition-all">
-      {/* Enterprise Scientific Utility Bar */}
-      <div className="bg-[#050b16] text-slate-300 text-[11px] border-b border-slate-800/80 hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1.5 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-slate-400 font-mono">
-            <MapPin className="w-3 h-3 text-teal-400 shrink-0" />
-            <span>APIIC Industrial Park, Gajuwaka, Andhra Pradesh, India</span>
-          </div>
-
-          <div className="flex items-center gap-4.5">
-            <a
-              href="tel:7619431029"
-              className="flex items-center gap-1.5 text-slate-300 hover:text-teal-300 transition-colors font-mono"
-            >
-              <Phone className="w-3 h-3 text-teal-400" />
-              <span>7619431029</span>
-            </a>
-            <span className="text-slate-700">|</span>
-            <a
-              href="mailto:chennaichemicalindustries@gmail.com"
-              className="flex items-center gap-1.5 text-slate-300 hover:text-teal-300 transition-colors font-mono"
-              title="Primary Corporate Email"
-            >
-              <Mail className="w-3 h-3 text-teal-400" />
-              <span>chennaichemicalindustries@gmail.com</span>
-            </a>
-            <span className="text-slate-700 hidden lg:inline">|</span>
-            <a
-              href="mailto:sales@chennaichemicalindustries.com"
-              className="hidden lg:flex items-center gap-1.5 text-slate-300 hover:text-teal-300 transition-colors font-mono"
-              title="Commercial Sales & RFQs"
-            >
-              <span className="text-slate-400 font-sans text-[10px] uppercase font-bold tracking-wider">Sales:</span>
-              <span>sales@chennaichemicalindustries.com</span>
-            </a>
-            <span className="text-slate-700">|</span>
-            <a
-              href="#/admin"
-              className="flex items-center gap-1 text-slate-400 hover:text-teal-300 transition-colors font-medium"
-            >
-              <Shield className="w-3 h-3 text-teal-500" />
-              <span>Admin Portal</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
       {/* Main Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-6 h-19">
