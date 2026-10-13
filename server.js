@@ -770,6 +770,9 @@ app.get('/api/admin/enquiries/export', requireAdminAuth, async (req, res) => {
 // -------------------------------------------------------------
 const distPath = path.join(__dirname, 'dist');
 app.use(express.static(distPath));
+// Static image aliases to serve images reliably in production
+app.use('/src/assets/images', express.static(path.join(distPath, 'assets', 'images')));
+app.use('/assets/images', express.static(path.join(distPath, 'assets', 'images')));
 app.get('*', (req, res) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ error: 'Endpoint not found' });

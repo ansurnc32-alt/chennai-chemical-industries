@@ -61,7 +61,7 @@ export const AboutSection: React.FC = () => {
               {/* Background ambient molecular image overlay */}
               <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
                 <img
-                  src="/src/assets/images/molecular_network_dark.jpg"
+                  src="/assets/images/molecular_network_dark.jpg"
                   alt="Molecular network background"
                   className="w-full h-full object-cover object-center"
                 />

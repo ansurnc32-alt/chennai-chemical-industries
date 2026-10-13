@@ -146,7 +146,7 @@ export const Hero: React.FC<HeroProps> = ({
               <div className="relative rounded-3xl overflow-hidden border border-teal-500/30 bg-[#0a1324]/90 shadow-2xl backdrop-blur-md">
                 <div className="relative aspect-4/3 overflow-hidden">
                   <img
-                    src="/src/assets/images/hero_scientific_molecule.jpg"
+                    src="/assets/images/hero_scientific_molecule.jpg"
                     alt="Precision laboratory glassware reaction and crystallization"
                     className="w-full h-full object-cover object-center scale-102 hover:scale-105 transition-transform duration-700"
                   />

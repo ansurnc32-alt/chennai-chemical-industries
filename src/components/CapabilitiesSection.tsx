@@ -163,7 +163,7 @@ export const CapabilitiesSection: React.FC<CapabilitiesSectionProps> = ({ onRequ
             <div className="space-y-3">
               <div className="rounded-2xl overflow-hidden border border-teal-500/30 shadow-xl aspect-4/3 relative group">
                 <img
-                  src="/src/assets/images/custom_synthesis_reactor.jpg"
+                  src="/assets/images/custom_synthesis_reactor.jpg"
                   alt="Pilot plant stainless steel custom synthesis reactor"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -181,7 +181,7 @@ export const CapabilitiesSection: React.FC<CapabilitiesSectionProps> = ({ onRequ
             <div className="space-y-3">
               <div className="rounded-2xl overflow-hidden border border-slate-700 shadow-xl aspect-4/3 relative group">
                 <img
-                  src="/src/assets/images/bulk_supply_warehouse_1791870954661.jpg"
+                  src="/assets/images/bulk_supply_warehouse_1791870954661.jpg"
                   alt="Climate-controlled chemical logistics and warehouse facility"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />

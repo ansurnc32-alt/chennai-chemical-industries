@@ -68,7 +68,7 @@ export const QualitySection: React.FC = () => {
             {/* High-Performance Chromatography Visual */}
             <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-xl relative group aspect-4/3 bg-white">
               <img
-                src="/src/assets/images/quality_chromatography.jpg"
+                src="/assets/images/quality_chromatography.jpg"
                 alt="High performance liquid chromatography autosampler and column testing suite"
                 className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-700"
               />
