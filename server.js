@@ -8,11 +8,10 @@ import crypto from 'node:crypto';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const app = express();
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017';
-const DB_NAME = 'chennaichemicals';
+const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://127.0.0.1:27017';
+const DB_NAME = process.env.DB_NAME || 'chennaichemicals';
 const ENQUIRIES_COLLECTION = 'enquiries';
 const ADMINS_COLLECTION = 'admins';
 
@@ -118,9 +117,16 @@ async function initStorage() {
   }
 
   // Connect to MongoDB
+  const isAtlas = Boolean(MONGODB_URI && (MONGODB_URI.includes('.mongodb.net') || MONGODB_URI.startsWith('mongodb+srv://')));
   try {
-    mongoClient = new MongoClient(MONGODB_URI, { serverSelectionTimeoutMS: 3000 });
+    mongoClient = new MongoClient(MONGODB_URI, {
+      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 10000,
+    });
     await mongoClient.connect();
+    // Verify cluster is genuinely responsive before declaring database ready
+    await mongoClient.db('admin').command({ ping: 1 });
+
     db = mongoClient.db(DB_NAME);
     enquiriesCollection = db.collection(ENQUIRIES_COLLECTION);
     adminsCollection = db.collection(ADMINS_COLLECTION);
@@ -130,10 +136,31 @@ async function initStorage() {
     await adminsCollection.createIndex({ username: 1 }, { unique: true });
 
     isMongoConnected = true;
-    console.log(`[Database] Successfully connected to MongoDB at ${MONGODB_URI}/${DB_NAME}`);
+    const clusterDesc = isAtlas ? 'MongoDB Atlas Cloud Cluster' : 'Local MongoDB';
+    console.log(`[Database] Successfully connected to ${clusterDesc} (Database: ${DB_NAME})`);
   } catch (err) {
     isMongoConnected = false;
-    console.warn(`[Database] MongoDB connection unavailable (${err.message}). Using persistent JSON storage.`);
+    let failureDetail = err.message || 'Unknown connection error';
+
+    // Categorize failure clearly without leaking credentials
+    if (err.message && (err.message.includes('Authentication failed') || err.code === 18)) {
+      failureDetail = 'Authentication failed. Please verify Atlas database user credentials.';
+    } else if (err.name === 'MongoServerSelectionError' || err.message.includes('server selection')) {
+      failureDetail = 'Server selection timeout. Possible IP Access List restriction in Atlas Network Access or network downtime.';
+    } else if (err.message && (err.message.includes('ENOTFOUND') || err.message.includes('querySrv'))) {
+      failureDetail = 'DNS / SRV record resolution failure. Please check internet connection and cluster address.';
+    } else if (err.name === 'MongoParseError') {
+      failureDetail = 'Invalid connection string format.';
+    }
+
+    console.error(`[Database Error] Connection failed: ${failureDetail}`);
+
+    if (isAtlas) {
+      // Never silently fall back to local MongoDB when Atlas is configured
+      throw new Error(`Failed to establish connection to MongoDB Atlas: ${failureDetail}`);
+    } else {
+      console.warn(`[Database] Local MongoDB unavailable (${failureDetail}). Using persistent JSON storage.`);
+    }
   }
 
   // Bootstrap Admin Account securely from Environment
@@ -257,10 +284,13 @@ function requireAdminAuth(req, res, next) {
 // Health Check Endpoint (Public)
 // -------------------------------------------------------------
 app.get('/api/health', (req, res) => {
+  const isAtlas = Boolean(MONGODB_URI && (MONGODB_URI.includes('.mongodb.net') || MONGODB_URI.startsWith('mongodb+srv://')));
   res.json({
     status: 'ok',
     service: 'Chennai Chemical Industries API',
     database: isMongoConnected ? 'mongodb' : 'file_persistence',
+    cluster: isMongoConnected ? (isAtlas ? 'mongodb_atlas' : 'localhost') : 'disconnected',
+    databaseName: isMongoConnected ? DB_NAME : null,
     timestamp: new Date().toISOString(),
   });
 });
@@ -489,10 +519,13 @@ app.post('/api/enquiries', async (req, res) => {
       }
     }
 
-    // Always append to local persistent file as fail-safe guarantee
+    // Always append to local persistent file as fail-safe guarantee (avoiding duplicate writes)
     const existingFileEnquiries = await readJsonFile(ENQUIRIES_BACKUP_FILE, []);
-    existingFileEnquiries.unshift(enquiryDoc);
-    await writeJsonFile(ENQUIRIES_BACKUP_FILE, existingFileEnquiries);
+    const alreadyExists = existingFileEnquiries.some((e) => e.referenceId === enquiryDoc.referenceId);
+    if (!alreadyExists) {
+      existingFileEnquiries.unshift(enquiryDoc);
+      await writeJsonFile(ENQUIRIES_BACKUP_FILE, existingFileEnquiries);
+    }
 
     // 4. Server-Side Email Notification hook (safe check for credentials)
     if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
